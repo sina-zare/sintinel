@@ -1,0 +1,4 @@
+_Hostname_:_Host_IP_:_Restic_User_:_Restic_Password_:_Repo_Password_:_Backup_Type_:_Backup_Dir_
+
+my-db:192.0.2.10:restic-user:RESTIC_USER_PASSWORD:REPO_PASSWORD:psql:
+my-fileserver:192.0.2.11:restic-user:RESTIC_USER_PASSWORD:REPO_PASSWORD:dir:/var/www
