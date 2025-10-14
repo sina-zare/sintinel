@@ -23,7 +23,7 @@
 * [Monitoring & metrics](#monitoring--metrics)
 * [Troubleshooting & FAQ](#troubleshooting--faq)
 * [Security recommendations](#security-recommendations)
-* [License & Contributing](#license--contributing)
+* [License](#license)
 
 ---
 
@@ -394,11 +394,9 @@ tail -f /sintinel/sintinel-data/logs/sintinel.logs
 
 ---
 
-## License & Contributing
+## License
 
-* Fork the repo and create a feature branch.
-* Open a pull request with a clear description and any required migration steps.
-* Keep changes small and focused; include tests when relevant.
+GNU GPLv3
 
 **Author / Contact**: Sina Zare / sinazare1998@gmail.com
 
