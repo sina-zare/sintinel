@@ -23,7 +23,6 @@
 * [Monitoring & metrics](#monitoring--metrics)
 * [Troubleshooting & FAQ](#troubleshooting--faq)
 * [Security recommendations](#security-recommendations)
-* [License & Contributing](#license--contributing)
 
 ---
 
