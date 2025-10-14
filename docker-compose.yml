@@ -1,0 +1,31 @@
+services:
+  restserver:
+    image: restic/rest-server:latest
+    container_name: restserver
+    ports:
+      - "8000:8000"
+    environment:
+      OPTIONS: "--prometheus --prometheus-no-auth --private-repos"
+    volumes:
+      - ./sintinel-data/rest-data:/data
+    restart: always
+
+  sintinel:
+    image: sintinel:0.1
+    container_name: sintinel
+    env_file:
+      - .env
+    depends_on:
+      - restserver
+    volumes:
+      # clients list (read-only)
+      - /sintinel/sintinel_clients.txt:/opt/scripts/sintinel_clients.txt:ro
+
+      # mount private key at the same filename that SSH_KEY_NAME points to
+      - /sintinel/id_ed25519_sintinel:/home/sintinel/.ssh/id_ed25519_sintinel:ro
+
+      # persist restore/cache/logs on host
+      - /sintinel/sintinel-data/restore:/opt/sintinel/restore
+      - /sintinel/sintinel-data/cache:/opt/sintinel/cache
+      - /sintinel/sintinel-data/logs:/var/log/sintinel
+    restart: on-failure
