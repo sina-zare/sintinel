@@ -23,6 +23,7 @@
 * [Monitoring & metrics](#monitoring--metrics)
 * [Troubleshooting & FAQ](#troubleshooting--faq)
 * [Security recommendations](#security-recommendations)
+* [License & Contributing](#license--contributing)
 
 ---
 
@@ -391,3 +392,14 @@ tail -f /sintinel/sintinel-data/logs/sintinel.logs
 * Limit network access to the `rest-server` (firewall, reverse-proxy with TLS) if exposing outside a local network.
 * Periodically back up `./sintinel-data/rest-data` (the rest-server storage) — this is where snapshots are physically stored on the host.
 
+---
+
+## License & Contributing
+
+* Fork the repo and create a feature branch.
+* Open a pull request with a clear description and any required migration steps.
+* Keep changes small and focused; include tests when relevant.
+
+**Author / Contact**: Sina Zare / sinazare1998@gmail.com
+
+---
