@@ -242,6 +242,7 @@ PUSHGATEWAY_URL=http://pushgateway.example.com:9091     # pushgateway URL
 PUSHGATEWAY_JOB=(optional)                              # defaults to docker_containers
 PUSHGATEWAY_INSTANCE=(optional)                         # defaults to sintinel
 PUSHGATEWAY_TARGET=(optional)                           # defaults to sintinel_clients
+LABEL_TEAM=(optional)                                   # metric team label - defaults to sysops
 ```
 
 **Notes**:
