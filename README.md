@@ -160,10 +160,12 @@ ssh username@client-ip "mkdir -p ~/.ssh && chmod 700 ~/.ssh && printf 'no-port-f
 ### 2. PostgreSQL Dumps
 
 On each PostgreSQL database server, save the `postgres` credentials in the `.pgpass` file of the `sysops` user. Limit file access permissions to the `sysops` user only.
+Make sure you have postgresql-client installed.
 
 Replace `secret` with your actual PostgreSQL password.
 
 ```bash
+sudo apt install postgresql-client
 echo "localhost:5432:*:postgres:secret" > ~/.pgpass
 chmod 600 ~/.pgpass
 ```
