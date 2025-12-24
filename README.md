@@ -23,7 +23,7 @@
 * [Monitoring & metrics](#monitoring--metrics)
 * [Troubleshooting & FAQ](#troubleshooting--faq)
 * [Security recommendations](#security-recommendations)
-* [License](#license)
+* [License & Contributing](#license--contributing)
 
 ---
 
@@ -160,12 +160,10 @@ ssh username@client-ip "mkdir -p ~/.ssh && chmod 700 ~/.ssh && printf 'no-port-f
 ### 2. PostgreSQL Dumps
 
 On each PostgreSQL database server, save the `postgres` credentials in the `.pgpass` file of the `sysops` user. Limit file access permissions to the `sysops` user only.
-Make sure you have postgresql-client installed.
 
 Replace `secret` with your actual PostgreSQL password.
 
 ```bash
-sudo apt install postgresql-client
 echo "localhost:5432:*:postgres:secret" > ~/.pgpass
 chmod 600 ~/.pgpass
 ```
@@ -225,7 +223,6 @@ RESTSERVER_HOST=restserver                              # Hostname or IP of rest
 RESTSERVER_PORT=8000                                    # port where rest-server listens (default 8000)
  
 # --- SSH config ---
-SSH_USER=ubuntu                                         # default SSH user for connecting to clients
 SSH_KEY_NAME=id_ed25519_sintinel                        # filename of the private key as mounted into the container
  
 # --- Backup retention policy ---
@@ -244,7 +241,6 @@ PUSHGATEWAY_URL=http://pushgateway.example.com:9091     # pushgateway URL
 PUSHGATEWAY_JOB=(optional)                              # defaults to docker_containers
 PUSHGATEWAY_INSTANCE=(optional)                         # defaults to sintinel
 PUSHGATEWAY_TARGET=(optional)                           # defaults to sintinel_clients
-LABEL_TEAM=(optional)                                   # metric team label - defaults to sysops
 ```
 
 **Notes**:
@@ -261,28 +257,31 @@ Each line defines one remote client. Fields are colon-separated.
 **Format (for reference)**
 
 ```
-# Hostname:Host_IP:Restic_User:Restic_Password:Repo_Password:Backup_Type:Backup_Dir
+# Format Help
+# PSQL --> Hostname:SSH_User:Host_IP:SSH_Port:Restic_User:Restic_Password:Repo_Password:Backup_Type:Postgres_Port:Postgres_User
+# Example  my-db:my-user:192.0.2.10:22:restic-user:RESTIC_USER_PASSWORD:REPO_PASSWORD:psql:5432:postgres
+
+# DIR  --> Hostname:SSH_User:Host_IP:SSH_Port:Restic_User:Restic_Password:Repo_Password:Backup_Type:Backup_Dir
+# Example  my-fileserver:my-user:192.0.2.11:22:restic-user:RESTIC_USER_PASSWORD:REPO_PASSWORD:dir:/var/www
+
 ```
 
-**Example**
-
-```
-my-db:192.0.2.10:restic-user:RESTIC_USER_PASSWORD:REPO_PASSWORD:psql:
-my-fileserver:192.0.2.11:restic-user:RESTIC_USER_PASSWORD:REPO_PASSWORD:dir:/var/www
-```
 
 **Fields**
 
 * `Hostname` — logical name used for the restic repository and labels.
+* `SSH_User` — username to perform ssh.
 * `Host_IP` — IP or hostname reachable via SSH from the `sintinel` container.
+* `SSH_Port` — ssh port of target
 * `Restic_User` — username used within the restserver for rest-server authentication (created above).
 * `Restic_Password` — password used to authenticate the `Restic_User`.
 * `Repo_Password` — repository password used to encrypt the restic repo for that host (managed by Sintinel).
 * `Backup_Type` — `psql` or `dir`.
-
   * `psql`: Sintinel will run a `pg_dump` on the remote host (SSH user must have rights).
   * `dir`: Sintinel archives `Backup_Dir` on the remote host.
 * `Backup_Dir` — full path to backup for `dir` entries. Leave empty for `psql`.
+* `Postgres_Port` — PostgreSQL port of target.
+* `Postgres_User` — PostgreSQL user to connect the target's postgresql database.
 
 **Security**: `sintinel_clients.txt` contains sensitive passwords. Keep file permissions strict (e.g. `chmod 600`).
 
@@ -397,9 +396,11 @@ tail -f /sintinel/sintinel-data/logs/sintinel.logs
 
 ---
 
-## License
+## License & Contributing
 
-GNU GPLv3
+* Fork the repo and create a feature branch.
+* Open a pull request with a clear description and any required migration steps.
+* Keep changes small and focused; include tests when relevant.
 
 **Author / Contact**: Sina Zare / sinazare1998@gmail.com
 
